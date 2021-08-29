@@ -1,0 +1,41 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+
+	id 'application'
+	id 'org.openjfx.javafxplugin' version '0.0.9'
+	id 'org.beryx.jlink' version '2.23.1'
+}
+
+javafx {
+	version = "15.0.1"
+	modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media' ]
+}
+
+group = 'chess.ai'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+mainClassName='chess.ai.ChessAI.gui.Launcher'
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useJUnitPlatform()
+}
