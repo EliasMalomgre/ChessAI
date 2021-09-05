@@ -2,17 +2,23 @@
  * Stores the contents of the game to be readable by the 
  * controller's rendering algorithms
  * 7/3/20
- */
-package chess.ai.ChessAI.gui;
+ *//*
+
+package chess.ai.ChessAI.domain;
+import chess.ai.ChessAI.domain.pieces.Piece;
+import chess.ai.ChessAI.gui.GameView;
+
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+*/
 /**
  *
  * @author Joseph
- */
+ *//*
+
 public class GameInfo {
     
     
@@ -83,12 +89,14 @@ public class GameInfo {
         return true;
     }
     
-    /**
+    */
+/**
      * Returns whether or not the move at the current moveNum can castle
      * @param forWhiteKing is kingWhite
      * @param kingSide, the side of the rook to check for
      * @return canCastle
-     */
+     *//*
+
     public boolean canCastle(boolean forWhiteKing, boolean kingSide) {
         int i = forWhiteKing ? 0 : 1;
         while(i < moveNum) {
@@ -104,16 +112,18 @@ public class GameInfo {
         } else return kingSide || canQueenSideCastle(-1);
     }
 
-    /**
+    */
+/**
      * Returns whether or not the move at the current moveNum can castle
      * @param forWhiteKing is kingWhite
      * @param rookToCastle, the rook to castle for (cannot have moved)
      * @return canCastle
      * @deprecated method will not work if board has been reconstructed 
      * the Rook needs the be the exact same memory reference to work
-     */
+     *//*
+
     @Deprecated
-    public boolean canCastle(boolean forWhiteKing, PieceView  rookToCastle) {
+    public boolean canCastle(boolean forWhiteKing, Piece rookToCastle) {
         int i = forWhiteKing ? 0 : 1;
         while(i < moveNum+1) {
             Move move = moves.get(i);
@@ -191,9 +201,11 @@ public class GameInfo {
         return moveNum == moves.size()-1;
     }
     
-    /**
+    */
+/**
      * Takes back a move by removing move from list and shifting moveNum back
-     */
+     *//*
+
     public void takeBackMove() {
         moves.remove(getMoveCount()-1);
         moveNum = getMoveCount()-1;
@@ -208,11 +220,13 @@ public class GameInfo {
         return getMoveCount() > 0;
     }
     
-    /**
+    */
+/**
      * Checks moves to check if king can castle, if on initial position can always castle
      * @param offset, the number of moves to go back to
      * @return anKingSideCastle
-     */
+     *//*
+
     public boolean canKingSideCastle(int offset) {
         int num = moveNum - offset;
         if((num < moves.size()) && num > -1) {
@@ -222,11 +236,13 @@ public class GameInfo {
         }
     }
     
-    /**
+    */
+/**
      * Checks moves to check if king can castle, if on initial position can always castle
      * @param offset, the number of moves to go back to
      * @return anKingSideCastle
-     */
+     *//*
+
     public boolean canQueenSideCastle(int offset) {
         int num = moveNum - offset;
         if((num < moves.size()) && num > -1) {
@@ -236,7 +252,8 @@ public class GameInfo {
         }
     }
     
-    /**
+    */
+/**
      * Performs a standard chess move on the gameInfo
      * 
      * Modifies currentBoard
@@ -245,19 +262,21 @@ public class GameInfo {
      * 
      * @param oldTile, tile to move from
      * @param newTile, tile to move to 
-     */
-    public void makeMove(TileView oldTile, TileView newTile) {
+     *//*
+
+    public void makeMove(Tile oldTile, Tile newTile) {
         boolean taken = newTile.hasPiece();
-        currentBoard[newTile.getRow()][newTile.getCol()] = currentBoard[oldTile.getRow()][oldTile.getCol()];
-        currentBoard[oldTile.getRow()][oldTile.getCol()] = EMPTY;
+        currentBoard[newTile.getRowBoard()][newTile.getColBoard()] = currentBoard[oldTile.getRowBoard()][oldTile.getColBoard()];
+        currentBoard[oldTile.getRowBoard()][oldTile.getColBoard()] = EMPTY;
         moveNum++;
-        Move move = new Move(oldTile.getRow(), oldTile.getCol(), newTile.getRow(), 
-                newTile.getCol(), oldTile.getPiece(), cloneArray(currentBoard),
+        Move move = new Move(oldTile.getRowBoard(), oldTile.getColBoard(), newTile.getRowBoard(), 
+                newTile.getColBoard(), oldTile.getPiece(), cloneArray(currentBoard),
                 canKingSideCastle(-2), canQueenSideCastle(-2), moveNum % 2 == 0, taken);
         moves.add(move);
     }
     
-    /**
+    */
+/**
      * Performs an en passant chess move on the gameInfo
      * 
      * Modifies currentBoard
@@ -267,19 +286,21 @@ public class GameInfo {
      * @param oldTile, tile to move from
      * @param newTile, tile to move to 
      * @param taken the piece taken en passant
-     */
-    public void makeMoveEnPassant(TileView oldTile, TileView newTile, PieceView  taken) {
-        currentBoard[newTile.getRow()][newTile.getCol()] = currentBoard[oldTile.getRow()][oldTile.getCol()];
-        currentBoard[oldTile.getRow()][oldTile.getCol()] = EMPTY;
-        currentBoard[taken.getTile().getRow()][taken.getTile().getCol()] = EMPTY;
+     *//*
+
+    public void makeMoveEnPassant(Tile oldTile, Tile newTile, Piece taken) {
+        currentBoard[newTile.getRowBoard()][newTile.getColBoard()] = currentBoard[oldTile.getRowBoard()][oldTile.getColBoard()];
+        currentBoard[oldTile.getRowBoard()][oldTile.getColBoard()] = EMPTY;
+        currentBoard[taken.getTile().getRowBoard()][taken.getTile().getColBoard()] = EMPTY;
         moveNum++;
-        Move move = new Move(oldTile.getRow(), oldTile.getCol(), newTile.getRow(), 
-                newTile.getCol(), oldTile.getPiece(), cloneArray(currentBoard), 
+        Move move = new Move(oldTile.getRowBoard(), oldTile.getColBoard(), newTile.getRowBoard(), 
+                newTile.getColBoard(), oldTile.getPiece(), cloneArray(currentBoard), 
                 canKingSideCastle(-2), canQueenSideCastle(-2), moveNum % 2 == 0, false);
         moves.add(move);
     }
     
-    /**
+    */
+/**
      * Performs a promotion chess move on the gameInfo
      * 
      * Modifies currentBoard
@@ -289,19 +310,21 @@ public class GameInfo {
      * @param oldTile, tile to move from
      * @param newTile, tile to move to 
      * @param promotionTo piece to be promoted to
-     */
-    public void makeMovePromotion(TileView oldTile, TileView newTile, PieceView  promotionTo) {
+     *//*
+
+    public void makeMovePromotion(Tile oldTile, Tile newTile, Piece promotionTo) {
         boolean taken = newTile.hasPiece();
-        currentBoard[newTile.getRow()][newTile.getCol()] = promotionTo.getInfoCode();
-        currentBoard[oldTile.getRow()][oldTile.getCol()] = EMPTY;
+        currentBoard[newTile.getRowBoard()][newTile.getColBoard()] = promotionTo.getInfoCode();
+        currentBoard[oldTile.getRowBoard()][oldTile.getColBoard()] = EMPTY;
         moveNum++;
-        Move move = new Move(oldTile.getRow(), oldTile.getCol(), newTile.getRow(), 
-                newTile.getCol(), oldTile.getPiece(), cloneArray(currentBoard), 
+        Move move = new Move(oldTile.getRowBoard(), oldTile.getColBoard(), newTile.getRowBoard(), 
+                newTile.getColBoard(), oldTile.getPiece(), cloneArray(currentBoard), 
                 canKingSideCastle(-2), canQueenSideCastle(-2), moveNum % 2 == 0,taken);
         moves.add(move);
     }
     
-    /**
+    */
+/**
      * Performs a castle QueenSide on the gameInfo
      * 
      * Modifies currentBoard
@@ -310,21 +333,23 @@ public class GameInfo {
      * 
      * @param king the king to perform castling on
      * @param rook the rook to perform castling with
-     */
-    public void makeMoveCastleQueenSide(PieceView king, PieceView rook) {
-        TileView kingTile = king.getTile();
-        TileView rookTile = rook.getTile();
-        currentBoard[kingTile.getRow()][kingTile.getCol()-2] = currentBoard[kingTile.getRow()][kingTile.getCol()];
-        currentBoard[rookTile.getRow()][rookTile.getCol()+3] = currentBoard[rook.getTile().getRow()][rook.getTile().getCol()];
-        currentBoard[kingTile.getRow()][kingTile.getCol()] = EMPTY;
-        currentBoard[rookTile.getRow()][rookTile.getCol()] = EMPTY;
+     *//*
+
+    public void makeMoveCastleQueenSide(Piece king, Piece rook) {
+        Tile kingTile = king.getTile();
+        Tile rookTile = rook.getTile();
+        currentBoard[kingTile.getRowBoard()][kingTile.getColBoard()-2] = currentBoard[kingTile.getRowBoard()][kingTile.getColBoard()];
+        currentBoard[rookTile.getRowBoard()][rookTile.getColBoard()+3] = currentBoard[rook.getTile().getRowBoard()][rook.getTile().getColBoard()];
+        currentBoard[kingTile.getRowBoard()][kingTile.getColBoard()] = EMPTY;
+        currentBoard[rookTile.getRowBoard()][rookTile.getColBoard()] = EMPTY;
         moveNum++;
-        Move move = new Move(kingTile.getRow(), kingTile.getCol(), kingTile.getRow(), kingTile.getCol()-2,
+        Move move = new Move(kingTile.getRowBoard(), kingTile.getColBoard(), kingTile.getRowBoard(), kingTile.getColBoard()-2,
                 Move.QUEEN_SIDE_CASTLE, cloneArray(currentBoard));
         moves.add(move);  
     }
     
-    /**
+    */
+/**
      * Performs a castle KingSide on the gameInfo
      * 
      * Modifies currentBoard
@@ -333,24 +358,27 @@ public class GameInfo {
      * 
      * @param king the king to perform castling on
      * @param rook the rook to perform castling with
-     */
-    public void makeMoveCastleKingSide(PieceView  king, PieceView  rook) {
-        TileView kingTile = king.getTile();
-        TileView rookTile = rook.getTile();
-        currentBoard[kingTile.getRow()][kingTile.getCol()+2] = currentBoard[kingTile.getRow()][kingTile.getCol()];
-        currentBoard[rookTile.getRow()][rookTile.getCol()-2] = currentBoard[rook.getTile().getRow()][rook.getTile().getCol()];
-        currentBoard[kingTile.getRow()][kingTile.getCol()] = EMPTY;
-        currentBoard[rookTile.getRow()][rookTile.getCol()] = EMPTY;
+     *//*
+
+    public void makeMoveCastleKingSide(Piece king, Piece rook) {
+        Tile kingTile = king.getTile();
+        Tile rookTile = rook.getTile();
+        currentBoard[kingTile.getRowBoard()][kingTile.getColBoard()+2] = currentBoard[kingTile.getRowBoard()][kingTile.getColBoard()];
+        currentBoard[rookTile.getRowBoard()][rookTile.getColBoard()-2] = currentBoard[rook.getTile().getRowBoard()][rook.getTile().getColBoard()];
+        currentBoard[kingTile.getRowBoard()][kingTile.getColBoard()] = EMPTY;
+        currentBoard[rookTile.getRowBoard()][rookTile.getColBoard()] = EMPTY;
         moveNum++;
-        Move move = new Move(kingTile.getRow(), kingTile.getCol(), kingTile.getRow(), kingTile.getCol()+2,
+        Move move = new Move(kingTile.getRowBoard(), kingTile.getColBoard(), kingTile.getRowBoard(), kingTile.getColBoard()+2,
                 Move.KING_SIDE_CASTLE, cloneArray(currentBoard));
         moves.add(move); 
     }
 
-    /**
+    */
+/**
      * Return the positions of the tiles involved in the most recent move
      * @return positions of the old and new tile, in that order
-     */
+     *//*
+
     public ArrayList<int[]> getRecentlyMovedTileCoordinates() {
         if(moveNum < 0) {
             return new ArrayList<>();
@@ -361,7 +389,7 @@ public class GameInfo {
         return recentlyMoved;
     }
     
-    public void setRecentPromotion(PieceView  promotionTo) {
+    public void setRecentPromotion(Piece promotionTo) {
         moves.get(moves.size()-1).setPromotionNot(promotionTo);
     }
     
@@ -390,10 +418,12 @@ public class GameInfo {
         moves.get(moves.size()-1).setNotation();
     }
     
-    /**
+    */
+/**
      * Calculates the FEN for the current moveNum move
      * @return FEN as a string
-     */
+     *//*
+
     public String getMoveFEN() {
         if(moveNum < 0) {
             return INITIAL_FEN;
@@ -470,11 +500,13 @@ public class GameInfo {
         return FEN.toString();
     }
     
-    /**
+    */
+/**
      * Return game PGN for file export by adding each Move notation
      * @param result, the result of the game to get headers for
      * @return PGN as a string
-     */
+     *//*
+
     public String getGamePGN(String result) {
         StringBuilder PGN = new StringBuilder(getPGNHeaders(result));
         int i = 0;
@@ -491,11 +523,13 @@ public class GameInfo {
         return PGN.toString();
     }
     
-    /**
+    */
+/**
      * Return PGN headers for file export
      * @param result, the result of the game to return headers for
      * @return headers as a string
-     */
+     *//*
+
     public String getPGNHeaders(String result) {
         return "[Event \"ChessLite Practice\"]\n"
                 + "[Site \"ChessLite GUI\"]\n"
@@ -505,21 +539,25 @@ public class GameInfo {
                 + result + "\n";
     }
     
-    /**
+    */
+/**
      * Gets the current date of the system
      * @return date as String
-     */
+     *//*
+
     public String getDate() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now(); 
         return dtf.format(now);
     }
     
-    /**
+    */
+/**
      * Clones the array
      * @param src ByteBoard to be copied
      * @return return copy as ByteBoard
-     */
+     *//*
+
     public static byte[][] cloneArray(byte[][] src) {
         int length = src.length;
         byte[][] target = new byte[length][src[0].length];
@@ -531,3 +569,4 @@ public class GameInfo {
     
 }
 
+*/

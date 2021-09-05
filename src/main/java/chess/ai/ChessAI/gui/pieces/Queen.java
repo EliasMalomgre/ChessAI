@@ -4,10 +4,10 @@
  */
 package chess.ai.ChessAI.gui.pieces;
 
-import chess.ai.ChessAI.gui.Game;
+import chess.ai.ChessAI.gui.GameView;
 import chess.ai.ChessAI.gui.GameInfo;
-import chess.ai.ChessAI.gui.Piece;
-import chess.ai.ChessAI.gui.Tile;
+import chess.ai.ChessAI.gui.PieceView;
+import chess.ai.ChessAI.gui.TileView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author Joseph
  */
-public final class Queen extends Piece{
+public final class Queen extends PieceView {
     
     /*
      * Attack pattern: 
@@ -49,7 +49,7 @@ public final class Queen extends Piece{
      * @param tile tile piece belongs to
      * @param path for image
     */
-    public Queen(boolean isWhite, Tile tile, String path) {
+    public Queen(boolean isWhite, TileView tile, String path) {
         super(isWhite, tile);
         setPaths(path);
         Image image = null;
@@ -73,11 +73,11 @@ public final class Queen extends Piece{
     
     @Override
     public void pieceAvailableMoves() {
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = getTile().getRow();
         int col = getTile().getCol();
-        ArrayList<Tile> available = getAvailable();
+        ArrayList<TileView> available = getAvailable();
 
         int[][] multipliers = {{1,1},{-1,1},{1,-1},{-1,-1},{1,0},{-1,0},{0,1},{0,-1}};
         for(int[] multiplier : multipliers) {
@@ -85,7 +85,7 @@ public final class Queen extends Piece{
             boolean canContinue = true;
             while(canContinue) {
                 if(withinBounds(row+(i*multiplier[0]),col+(i*multiplier[1]))) {
-                    Tile tile = tiles[row+(i*multiplier[0])][col+(i*multiplier[1])];
+                    TileView tile = tiles[row+(i*multiplier[0])][col+(i*multiplier[1])];
                     if((!tile.hasPiece())) {
                         available.add((tile));
                     } else if((tile.getPiece().isWhite() != isWhite())) {
@@ -104,12 +104,12 @@ public final class Queen extends Piece{
     }
     
     @Override
-    public void pieceAvailableMoves(ArrayList<Tile> whiteList) {
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+    public void pieceAvailableMoves(ArrayList<TileView> whiteList) {
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = getTile().getRow();
         int col = getTile().getCol();
-        ArrayList<Tile> available = getAvailable();
+        ArrayList<TileView> available = getAvailable();
         
         int[][] multipliers = {{1,1},{-1,1},{1,-1},{-1,-1},{1,0},{-1,0},{0,1},{0,-1}};
         for(int[] multiplier : multipliers) {
@@ -117,7 +117,7 @@ public final class Queen extends Piece{
             boolean canContinue = true;
             while(canContinue) {
                 if(withinBounds(row+(i*multiplier[0]),col+(i*multiplier[1]))) {
-                    Tile tile = tiles[row+(i*multiplier[0])][col+(i*multiplier[1])];
+                    TileView tile = tiles[row+(i*multiplier[0])][col+(i*multiplier[1])];
                     if((!tile.hasPiece())) {
                         if(whiteListed(whiteList, tile)) {
                             available.add((tile));
@@ -140,8 +140,8 @@ public final class Queen extends Piece{
     
     @Override
     public ArrayList<int[]> calcCommonPieceLocations(int[] location) {
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = location[0];
         int col = location[1];
         ArrayList<int[]> locations = new ArrayList<>();
@@ -151,7 +151,7 @@ public final class Queen extends Piece{
             boolean canContinue = true;
             while(canContinue) {
                 if(withinBounds(row+(i*multiplier[0]),col+(i*multiplier[1]))) {
-                    Tile tile = tiles[row+(i*multiplier[0])][col+(i*multiplier[1])];
+                    TileView tile = tiles[row+(i*multiplier[0])][col+(i*multiplier[1])];
                     if(tile.hasPiece()) {
                         if((tile.getPiece().isWhite() == isWhite()) 
                                 && tile.getPiece().isQueen() && tile.getPiece() != this) {

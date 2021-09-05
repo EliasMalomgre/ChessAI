@@ -18,10 +18,10 @@ import java.util.ArrayList;
  *
  * @author Joseph
  */
-public class NotationBoard extends ScrollPane{
+public class NotationBoardView extends ScrollPane{
     
     private final ChessLite app;
-    private final Game game; //controller to redirect flow
+    private final GameView game; //controller to redirect flow
     private final ArrayList<Move> moveData;
     private final VBox moveGui;
     private final ArrayList<HBox> moves;
@@ -34,7 +34,7 @@ public class NotationBoard extends ScrollPane{
      * @param gameIn, controller to redirect flow 
      * @param app, object for application
      */
-    public NotationBoard(ArrayList<Move> movesIn, VBox verticalIn, Game gameIn, ChessLite app) {
+    public NotationBoardView(ArrayList<Move> movesIn, VBox verticalIn, GameView gameIn, ChessLite app) {
         moves = new ArrayList<>();
         moveData = movesIn;
         moveGui = verticalIn;

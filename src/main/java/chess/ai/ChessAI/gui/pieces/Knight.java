@@ -4,10 +4,10 @@
  */
 package chess.ai.ChessAI.gui.pieces;
 
-import chess.ai.ChessAI.gui.Game;
+import chess.ai.ChessAI.gui.GameView;
 import chess.ai.ChessAI.gui.GameInfo;
-import chess.ai.ChessAI.gui.Piece;
-import chess.ai.ChessAI.gui.Tile;
+import chess.ai.ChessAI.gui.PieceView;
+import chess.ai.ChessAI.gui.TileView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author Joseph
  */
-public final class Knight extends Piece{
+public final class Knight extends PieceView {
     
     /**
      * Attack pattern:
@@ -49,7 +49,7 @@ public final class Knight extends Piece{
      * @param tile tile piece belongs to
      * @param path for image
     */
-    public Knight(boolean isWhite, Tile tile, String path) {
+    public Knight(boolean isWhite, TileView tile, String path) {
         super(isWhite, tile);
         setPaths(path);
         Image image = null;
@@ -72,16 +72,16 @@ public final class Knight extends Piece{
     
     @Override
     public void pieceAvailableMoves() {
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = getTile().getRow();
         int col = getTile().getCol();
-        ArrayList<Tile> available = getAvailable();
+        ArrayList<TileView> available = getAvailable();
         
         int[][] offsets = {{1,2},{2,1},{-1,2},{-2,1},{1,-2},{2,-1},{-1,-2},{-2,-1}};
         for(int[] offset : offsets) {
             if(withinBounds(row+offset[0],col+offset[1])) {
-                Tile tile = tiles[row+offset[0]][col+offset[1]];
+                TileView tile = tiles[row+offset[0]][col+offset[1]];
                 if(!tile.hasPiece() || (tile.getPiece().isWhite() != isWhite())) {
                     available.add(tile);
                 }
@@ -90,16 +90,16 @@ public final class Knight extends Piece{
     }
     
     @Override
-    public void pieceAvailableMoves(ArrayList<Tile> whiteList) {
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+    public void pieceAvailableMoves(ArrayList<TileView> whiteList) {
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = getTile().getRow();
         int col = getTile().getCol();
-        ArrayList<Tile> available = getAvailable();
+        ArrayList<TileView> available = getAvailable();
         int[][] offsets = {{1,2},{2,1},{-1,2},{-2,1},{1,-2},{2,-1},{-1,-2},{-2,-1}};
         for(int[] offset : offsets) {
             if(withinBounds(row+offset[0],col+offset[1])) {
-                Tile tile = tiles[row+offset[0]][col+offset[1]];
+                TileView tile = tiles[row+offset[0]][col+offset[1]];
                 if(whiteListed(whiteList, tile) && 
                         (!tile.hasPiece() || (tile.getPiece().isWhite() != isWhite()))) {
                     available.add(tile);
@@ -110,15 +110,15 @@ public final class Knight extends Piece{
     
     @Override
     public ArrayList<int[]> calcCommonPieceLocations(int[] location) {
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = location[0];
         int col = location[1];
         ArrayList<int[]> locations = new ArrayList<>();
         int[][] offsets = {{1,2},{2,1},{-1,2},{-2,1},{1,-2},{2,-1},{-1,-2},{-2,-1}};
         for(int[] offset : offsets) {
             if(withinBounds(row+offset[0],col+offset[1])) {
-                Tile tile = tiles[row+offset[0]][col+offset[1]];
+                TileView tile = tiles[row+offset[0]][col+offset[1]];
                 if((tile.hasPiece() && (tile.getPiece().isWhite() == isWhite()) 
                         && tile.getPiece().isKnight()) && tile.getPiece() != this) {
                     int[] loc = {row+offset[0],col+offset[1]};

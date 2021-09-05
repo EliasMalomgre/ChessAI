@@ -1,7 +1,7 @@
 package chess.ai.ChessAI.mcts.domain.ai.actions;
 
 
-import chess.ai.ChessAI.mcts.domain.Game;
+import chess.ai.ChessAI.domain.Game;
 
 public class GroupNode implements Action {
 

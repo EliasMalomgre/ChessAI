@@ -1,6 +1,6 @@
 package chess.ai.ChessAI.mcts.domain.ai.actions;
 
-import chess.ai.ChessAI.mcts.domain.Game;
+import chess.ai.ChessAI.domain.Game;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

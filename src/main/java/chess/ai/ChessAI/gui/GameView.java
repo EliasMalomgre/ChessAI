@@ -5,6 +5,7 @@
  */
 package chess.ai.ChessAI.gui;
 
+import chess.ai.ChessAI.domain.Game;
 import javafx.animation.FadeTransition;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -28,6 +29,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -46,7 +49,7 @@ import java.util.logging.Logger;
  *
  * @author Joseph
  */
-public class Game {
+public class GameView {
 
     public static final int LOWER_BOUNDARY = 0;
     public static final int UPPER_BOUNDARY = 7;
@@ -67,22 +70,24 @@ public class Game {
     private double tileSize; //calculate GUI sizes based of ChessLite application scale
     private double barWidth;
     private double barHeight;
+
+    private Game game;
     
     private ChessLite app; //dependency on application 
     
     private final GameInfo gameInfo = new GameInfo(); //deals with previous moves and ByteBoard storage
-    private final Board board = new Board(); //the current Board
+    private final BoardView board = new BoardView(); //the current Board
     
     private VBox sideBar;
-    private NotationBoard notationTable;
+    private NotationBoardView notationTable;
     private final Circle whiteCircle;
     private final Circle blackCircle;
     private final AnchorPane root;
     private final Stage stage;
     
-    private Tile selectedTile; //the current selected tile all moves are relative to this tile
-    private final ArrayList<Selectable> selectable = new ArrayList<>(); //all active selectable
-    private final ArrayList<Tile> highlightedTiles = new ArrayList<>();
+    private TileView selectedTile; //the current selected tile all moves are relative to this tile
+    private final ArrayList<SelectableView> selectable = new ArrayList<>(); //all active selectable
+    private final ArrayList<TileView> highlightedTiles = new ArrayList<>();
     private boolean whiteBoardPosition;
     private boolean inCheck = false;
     private boolean isWhiteTurn = true;
@@ -99,7 +104,7 @@ public class Game {
      * @param stageIn, the stage game belongs to
      * @param app, the application object
      */
-    protected Game(boolean whiteStart, Stage stageIn, ChessLite app) {
+    protected GameView(boolean whiteStart, Stage stageIn, ChessLite app) {
         setApp(app);
         whiteCircle = new Circle();
         blackCircle = new Circle();
@@ -121,12 +126,13 @@ public class Game {
      * @param app, the application object
      * @return constructed game
      */
-    public static Game constructGame(boolean whiteStart, Stage stageIn, ChessLite app) {
-        Game game = new Game(whiteStart, stageIn, app);
-        game.initBoard(whiteStart);
-        game.initRoot();
-        game.preGame();
-        return game;
+    public static GameView constructGame(boolean whiteStart, Stage stageIn, ChessLite app) {
+        GameView gameView = new GameView(whiteStart, stageIn, app);
+        gameView.game = new Game(whiteStart);
+        gameView.initBoard(whiteStart);
+        gameView.initRoot();
+        gameView.preGame();
+        return gameView;
     }
     
     /**
@@ -201,23 +207,23 @@ public class Game {
         return app;
     }
     
-    public ArrayList<Tile> getAttackingKing() {
+    public ArrayList<TileView> getAttackingKing() {
         return board.getAttackingKing();
     }
 
-    public ArrayList<Tile> getAttackWhiteListed() {
+    public ArrayList<TileView> getAttackWhiteListed() {
         return board.getAttackWhiteListed();
     }
 
-    public Piece getBlackKing() {
+    public PieceView getBlackKing() {
         return board.getBlackKing();
     }
 
-    public Piece getWhiteKing() {
+    public PieceView getWhiteKing() {
         return board.getWhiteKing();
     }
     
-    public ArrayList<Tile> kingMoves() {
+    public ArrayList<TileView> kingMoves() {
         return board.getKingCanMove();
     }
     
@@ -261,7 +267,7 @@ public class Game {
         this.moveReadyState = moveReadyState;
     }
     
-    public ArrayList<Selectable> getSelectable() {
+    public ArrayList<SelectableView> getSelectable() {
         return selectable;
     }
 
@@ -273,11 +279,11 @@ public class Game {
         this.sideBar = sideBar;
     }
     
-    public NotationBoard getNotationTable() {
+    public NotationBoardView getNotationTable() {
         return notationTable;
     }
 
-    public void setNotationTable(NotationBoard notationTable) {
+    public void setNotationTable(NotationBoardView notationTable) {
         this.notationTable = notationTable;
     }
 
@@ -297,7 +303,7 @@ public class Game {
         return root;
     }
 
-    public Tile[][] getTiles() {
+    public TileView[][] getTiles() {
         return board.getTiles();
     }
 
@@ -305,11 +311,11 @@ public class Game {
         return gameInfo;
     }
 
-    public void setSelectedTile(Tile selected) {
+    public void setSelectedTile(TileView selected) {
         this.selectedTile = selected;
     }
 
-    public Tile getSelectedTile() {
+    public TileView getSelectedTile() {
         return selectedTile;
     }
     
@@ -321,9 +327,9 @@ public class Game {
      * Adds a Selectable that performs a Standard chess move on the Game
      * @param tile to be rendered at and the tile to move to
      */
-    public void addSelectable(Tile tile) {
-        Selectable selectable = new Selectable(tile, this, Selectable.LIGHT_GREY,
-                Selectable.LIGHT_GREY, Selectable.GREY, Selectable.LIGHT_GREY, app){
+    public void addSelectable(TileView tile) {
+        SelectableView selectable = new SelectableView(tile, this, SelectableView.LIGHT_GREY,
+                SelectableView.LIGHT_GREY, SelectableView.GREY, SelectableView.LIGHT_GREY, app){
             @Override
             public void move() {
                 //app.getClip().play();
@@ -342,9 +348,9 @@ public class Game {
      * @param tile to be rendered at and the tile to move to
      * @param offset used to find the piece to be removed
      */
-    public void addEnPassantSelectable(Tile tile, int offset) {
-        Selectable selectable = new Selectable(tile, this, Selectable.LIGHT_GREY,
-                Selectable.LIGHT_GREY, Selectable.GREY, Selectable.LIGHT_GREY, app) {
+    public void addEnPassantSelectable(TileView tile, int offset) {
+        SelectableView selectable = new SelectableView(tile, this, SelectableView.LIGHT_GREY,
+                SelectableView.LIGHT_GREY, SelectableView.GREY, SelectableView.LIGHT_GREY, app) {
             @Override
             public void move() {
                 //app.getClip().play();
@@ -362,9 +368,9 @@ public class Game {
      * Adds a Selectable that performs a Promotion move on the Game
      * @param tile to be rendered at and the tile to move to
      */
-    public void addPromotionSelectable(Tile tile) {
-        Selectable selectable = new Selectable(tile, this, Selectable.LIGHT_GREY,
-                Selectable.LIGHT_GREY, Selectable.GREY, Selectable.LIGHT_GREY, app){
+    public void addPromotionSelectable(TileView tile) {
+        SelectableView selectable = new SelectableView(tile, this, SelectableView.LIGHT_GREY,
+                SelectableView.LIGHT_GREY, SelectableView.GREY, SelectableView.LIGHT_GREY, app){
             @Override
             public void move() {
                 boolean isWhite = getSelectedTile().getPiece().isWhite();
@@ -384,9 +390,9 @@ public class Game {
      * @param forWhite, the Color side castle is performed on top-bottom
      * @param kingSide, the Piece side castle is performed on left-right
      */
-    public void addCastleSelectable(Tile tile, boolean forWhite, boolean kingSide) {
-        Selectable selectable = new Selectable(tile, this, Selectable.LIGHT_GREY,
-                Selectable.LIGHT_GREY, Selectable.GREY, Selectable.LIGHT_GREY, app){
+    public void addCastleSelectable(TileView tile, boolean forWhite, boolean kingSide) {
+        SelectableView selectable = new SelectableView(tile, this, SelectableView.LIGHT_GREY,
+                SelectableView.LIGHT_GREY, SelectableView.GREY, SelectableView.LIGHT_GREY, app){
             @Override
             public void move() {
                 //app.getClip().play();
@@ -404,9 +410,9 @@ public class Game {
      * Adds a Visual tile that does not perform any move upon click
      * @param tile to be rendered at 
      */
-    public void addVisualize(Tile tile) {
-        Selectable selectable = new Selectable(tile, this, Selectable.LIGHT_GREY,
-                Selectable.LIGHT_GREY, Selectable.GREY, Selectable.LIGHT_GREY, app);
+    public void addVisualize(TileView tile) {
+        SelectableView selectable = new SelectableView(tile, this, SelectableView.LIGHT_GREY,
+                SelectableView.LIGHT_GREY, SelectableView.GREY, SelectableView.LIGHT_GREY, app);
         selectable.relocate(tile.getXReal(), tile.getYReal());
         selectable.setHighlightsNoHover();
         this.addToBoardGUI(selectable);
@@ -436,7 +442,7 @@ public class Game {
             selectedTile.setUnselected();
             selectedTile = null;
         }
-        selectable.forEach((Selectable selectable) -> getBoardGUI().getChildren().remove(selectable));
+        selectable.forEach((SelectableView selectable) -> getBoardGUI().getChildren().remove(selectable));
         selectable.clear();
     }
     
@@ -445,7 +451,7 @@ public class Game {
      * and the tile the piece was moved to
      */
     public void highlightRecentTiles() {
-        highlightedTiles.forEach(Tile::setUnHighLighted);
+        highlightedTiles.forEach(TileView::setUnHighLighted);
         highlightedTiles.clear();
         ArrayList<int[]> coordinates = gameInfo.getRecentlyMovedTileCoordinates();
         coordinates.forEach((coordinate)->{
@@ -484,7 +490,7 @@ public class Game {
      * @param col, the column of the position
      * @return whether or not the position is in Check
      */
-    public boolean inCheck(Piece king, int row, int col) {
+    public boolean inCheck(PieceView king, int row, int col) {
         return board.inCheck(king, row, col);
     }
     
@@ -523,7 +529,7 @@ public class Game {
      * Public method to perform a Standard move on Game
      * @param tile to be moved to
      */
-    public void makeMove(Tile tile) {
+    public void makeMove(TileView tile) {
         move(tile);
         if(gameResult == CHECKMATE) {
             String msg = isWhiteTurn() ? "Checkmate : 0-1" : "Checkmate : 1-0";
@@ -538,7 +544,7 @@ public class Game {
      * @param tile to be moved to
      * @param offset, offset used to remove piece taken en passant
      */
-    public void makeMoveEnPassant(Tile tile, int offset) {
+    public void makeMoveEnPassant(TileView tile, int offset) {
         moveEnPassant(tile,offset);
         if(gameResult == CHECKMATE) {
             String msg = isWhiteTurn() ? "Checkmate : 0-1" : "Checkmate : 1-0";
@@ -553,7 +559,7 @@ public class Game {
      * @param tile to be moved to
      * @param piece to be promoted to
      */
-    public void makeMovePromotion(Tile tile, Piece piece) {
+    public void makeMovePromotion(TileView tile, PieceView piece) {
         movePromotion(tile, piece);
         if(gameResult == CHECKMATE) {
             String msg = isWhiteTurn() ? "Checkmate : 0-1" : "Checkmate : 1-0";
@@ -590,13 +596,13 @@ public class Game {
      * 
      * @param tile to be moved to
      */
-    private void move(Tile tile) {
+    private void move(TileView tile) {
         int oldNot = gameInfo.getMoveNum();
         board.getBlackKing().getTile().setOffCheck();
         board.getWhiteKing().getTile().setOffCheck();
         inCheck = false;
-        Tile selected = selectedTile;
-        Piece taken = tile.getPiece();
+        TileView selected = selectedTile;
+        PieceView taken = tile.getPiece();
         gameInfo.makeMove(selected,tile);
         selected.movePiece(tile);
         if(taken != null) {
@@ -622,13 +628,13 @@ public class Game {
      * @param tile to be moved to
      * @param offset, offset used to remove piece taken en passant
      */
-    private void moveEnPassant(Tile tile, int offset) {
+    private void moveEnPassant(TileView tile, int offset) {
         int oldNot = gameInfo.getMoveNum();
         board.getBlackKing().getTile().setOffCheck();
         board.getWhiteKing().getTile().setOffCheck();
         inCheck = false;
-        Tile selected = selectedTile;
-        Piece taken = board.getTiles()[tile.getRow()+offset][tile.getCol()].getPiece();
+        TileView selected = selectedTile;
+        PieceView taken = board.getTiles()[tile.getRow()+offset][tile.getCol()].getPiece();
         gameInfo.makeMoveEnPassant(selected,tile,taken);
         selected.movePieceEnPassant(tile,board.getTiles()[tile.getRow()+offset][tile.getCol()]);   
         removeTaken(taken);
@@ -652,13 +658,13 @@ public class Game {
      * @param tile to be moved to
      * @param promotionTo to be promoted to
      */
-    private void movePromotion(Tile tile, Piece promotionTo) {
+    private void movePromotion(TileView tile, PieceView promotionTo) {
         int oldNot = gameInfo.getMoveNum();
         board.getBlackKing().getTile().setOffCheck();
         board.getWhiteKing().getTile().setOffCheck();
         inCheck = false;
-        Tile selected = selectedTile;
-        Piece taken = tile.getPiece();
+        TileView selected = selectedTile;
+        PieceView taken = tile.getPiece();
         gameInfo.makeMovePromotion(selected,tile,promotionTo);
         selected.movePiece(tile);
         if(taken != null) {
@@ -739,7 +745,7 @@ public class Game {
      * Remove a piece to be taken from the Board GUI with a delay
      * @param taken the piece to be removed
      */
-    private void removeTaken(Piece taken) {
+    private void removeTaken(PieceView taken) {
         if (isWhiteTurn()) {
             board.getBlackNotKing().remove(taken);
         } else {
@@ -768,7 +774,7 @@ public class Game {
      * @param oldPiece the piece to be promoted
      * @param newPiece the piece to be promoted to
      */
-    private void promotionDelay(Piece oldPiece, Piece newPiece) {
+    private void promotionDelay(PieceView oldPiece, PieceView newPiece) {
         Task<Void> sleeper = new Task<Void>() {
             @Override
             protected Void call() {
@@ -792,7 +798,7 @@ public class Game {
      * @param kingSide, the side of the rook to check for
      * @return canCastle
      */
-    public boolean canCastle(Piece king, boolean kingSide) {
+    public boolean canCastle(PieceView king, boolean kingSide) {
         return gameInfo.canCastle(king.isWhite(), kingSide);
     }
     
@@ -845,7 +851,7 @@ public class Game {
                 } 
                 writeStringToFile(PGN, file);
             } catch (IOException ex) {
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GameView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -861,7 +867,7 @@ public class Game {
                 writer.write(string);
             }
         } catch (IOException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GameView.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
     
@@ -1372,9 +1378,9 @@ public class Game {
      * Constructs Notation Board to display Game notation
      * @return NotationBoard represents Table with Notation liked to gameInfo
      */
-    public final NotationBoard constructNotationTable() {
+    public final NotationBoardView constructNotationTable() {
         VBox vertical = new VBox();
-        NotationBoard table = new NotationBoard(gameInfo.getMoves(), vertical, this, app);
+        NotationBoardView table = new NotationBoardView(gameInfo.getMoves(), vertical, this, app);
         table.setId("scrollborder");
         table.setFocusTraversable(false);
         double width = barWidth*0.8;

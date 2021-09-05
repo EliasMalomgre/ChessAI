@@ -13,15 +13,15 @@ import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 
-import static chess.ai.ChessAI.gui.Game.HEIGHT;
-import static chess.ai.ChessAI.gui.Game.WIDTH;
+import static chess.ai.ChessAI.gui.GameView.HEIGHT;
+import static chess.ai.ChessAI.gui.GameView.WIDTH;
 
 
 /**
  *
  * @author Joseph
  */
-public class Board {
+public class BoardView {
     
     public static final String[] NUMBER_TO_LETTER_TABLE = {"a","b","c","d","e","f","g","h"};
     public static final PieceType[] NOTATION_TO_CONSTRUCTOR_TABLE = {PieceType.NoPiece, //convert ByteBoard to objects
@@ -33,14 +33,14 @@ public class Board {
     public static final int LOWER_BOUND = -1;
     
     private Pane boardGUI;
-    private final Tile[][] tiles = new Tile[HEIGHT][WIDTH]; //board tiles
-    private final ArrayList<Piece> blackNotKing = new ArrayList<>(); //pieces
-    private final ArrayList<Piece> whiteNotKing = new ArrayList<>();
-    private Piece blackKing; //kings
-    private Piece whiteKing;
-    private final ArrayList<Tile> attackingKing = new ArrayList<>(); //tiles attacking King
-    private final ArrayList<Tile> attackWhiteListed = new ArrayList<>(); //available tiles during attack
-    private final ArrayList<Tile> kingCanMove = new ArrayList<>(); //available tiles for King
+    private final TileView[][] tiles = new TileView[HEIGHT][WIDTH]; //board tiles
+    private final ArrayList<PieceView> blackNotKing = new ArrayList<>(); //pieces
+    private final ArrayList<PieceView> whiteNotKing = new ArrayList<>();
+    private PieceView blackKing; //kings
+    private PieceView whiteKing;
+    private final ArrayList<TileView> attackingKing = new ArrayList<>(); //tiles attacking King
+    private final ArrayList<TileView> attackWhiteListed = new ArrayList<>(); //available tiles during attack
+    private final ArrayList<TileView> kingCanMove = new ArrayList<>(); //available tiles for King
     
     /**
      * Normalizes a value direction within the context of Chess to be quantifiable into
@@ -78,39 +78,39 @@ public class Board {
         return boardGUI;
     }
 
-    public Tile[][] getTiles() {
+    public TileView[][] getTiles() {
         return tiles;
     }
 
-    public ArrayList<Piece> getBlackNotKing() {
+    public ArrayList<PieceView> getBlackNotKing() {
         return blackNotKing;
     }
 
-    public ArrayList<Piece> getWhiteNotKing() {
+    public ArrayList<PieceView> getWhiteNotKing() {
         return whiteNotKing;
     }
 
-    public Piece getBlackKing() {
+    public PieceView getBlackKing() {
         return blackKing;
     }
 
-    public Piece getWhiteKing() {
+    public PieceView getWhiteKing() {
         return whiteKing;
     }
 
-    public ArrayList<Tile> getAttackingKing() {
+    public ArrayList<TileView> getAttackingKing() {
         return attackingKing;
     }
 
-    public ArrayList<Tile> getAttackWhiteListed() {
+    public ArrayList<TileView> getAttackWhiteListed() {
         return attackWhiteListed;
     }
 
-    public ArrayList<Tile> getKingCanMove() {
+    public ArrayList<TileView> getKingCanMove() {
         return kingCanMove;
     }
     
-    public Piece getKing(boolean white) {
+    public PieceView getKing(boolean white) {
         return white ? whiteKing : blackKing;
     }
     
@@ -121,14 +121,14 @@ public class Board {
      * @return whether or not a Side has any legal moves
      */
     public boolean hasLegalMoves(boolean white) {
-        ArrayList<Piece> pieces = white ? whiteNotKing : blackNotKing;
+        ArrayList<PieceView> pieces = white ? whiteNotKing : blackNotKing;
         boolean legal = false;
-        for(Piece piece : pieces) {
+        for(PieceView piece : pieces) {
             if(piece.hasLegalMoves()) {
                 legal = true;
             }
         }
-        Piece king = white ? whiteKing : blackKing;
+        PieceView king = white ? whiteKing : blackKing;
         if(king.hasLegalMoves()) {
             legal = true;
         }
@@ -140,15 +140,15 @@ public class Board {
      * @param white, whether the pieces to be used are white
      */
     public void calculateMoves(boolean white) {
-        Piece king = white ? whiteKing : blackKing;
+        PieceView king = white ? whiteKing : blackKing;
         attackingKing(king,attackingKing);
         kingCanMove(king,attackingKing,kingCanMove);
         king.calcAvailableMoves();
         attackWhiteListed(attackingKing,king,attackWhiteListed);
         if(white) {
-            whiteNotKing.forEach(Piece::calcAvailableMoves);
+            whiteNotKing.forEach(PieceView::calcAvailableMoves);
         } else {
-            blackNotKing.forEach(Piece::calcAvailableMoves);
+            blackNotKing.forEach(PieceView::calcAvailableMoves);
         }
     }
     
@@ -166,7 +166,7 @@ public class Board {
      * @param col, the column of the position
      * @return whether or not the position is in Check
      */
-    public boolean inCheck(Piece king, int row, int col) {
+    public boolean inCheck(PieceView king, int row, int col) {
         
         int[][] diagonals = {{1,1},{-1,1},{1,-1},{-1,-1}};
         int[][] horizontals = {{1,0},{-1,0},{0,-1},{0,1}};
@@ -178,10 +178,10 @@ public class Board {
             boolean canContinue = true;
             while (canContinue) {
                 if (withinBounds(row+(i*diagonal[0]),col+(i*diagonal[1]))) {
-                    Tile tile = tiles[row+(i*diagonal[0])][col+(i*diagonal[1])];
+                    TileView tile = tiles[row+(i*diagonal[0])][col+(i*diagonal[1])];
                     if (tile.hasPiece() && tile.getPiece() != king
                             && (tile.getPiece().isWhite() != king.isWhite())) {
-                        Piece piece = tile.getPiece();
+                        PieceView piece = tile.getPiece();
                         if (piece.isBishop() || piece.isQueen()
                                 || (piece.isPawn() && king.isWhite() != piece.isWhite() && i == 1)) {
                             return true;
@@ -204,10 +204,10 @@ public class Board {
             boolean canContinue = true;
             while (canContinue) {
                 if (withinBounds(row+(i*horizontal[0]),col+(i*horizontal[1]))) {
-                    Tile tile = tiles[row+(i*horizontal[0])][col+(i*horizontal[1])];
+                    TileView tile = tiles[row+(i*horizontal[0])][col+(i*horizontal[1])];
                     if (tile.hasPiece() && tile.getPiece() != king
                             && (tile.getPiece().isWhite() != king.isWhite())) {
-                        Piece piece = tile.getPiece();
+                        PieceView piece = tile.getPiece();
                         if (piece.isRook() || piece.isQueen()) {
                             return true;
                         }
@@ -226,9 +226,9 @@ public class Board {
         //L-shaped: knight
         for(int[] offset : knightOffsets) {
             if(withinBounds(row+offset[0],col+offset[1])) {
-                Tile tile = tiles[row+offset[0]][col+offset[1]];
+                TileView tile = tiles[row+offset[0]][col+offset[1]];
                 if(tile.hasPiece()) {
-                    Piece piece = tile.getPiece();
+                    PieceView piece = tile.getPiece();
                     if(piece.isKnight() && tile.getPiece() != king &&  
                             tile.getPiece().isWhite() != king.isWhite()) {
                         return true;
@@ -250,7 +250,7 @@ public class Board {
      * @param king, the given King 
      * @param attackingMoves, the list of tiles to be written to (cleared before writing)
      */
-    public void attackingKing(Piece king, ArrayList<Tile> attackingMoves) {
+    public void attackingKing(PieceView king, ArrayList<TileView> attackingMoves) {
         attackingMoves.clear();
         int row = king.getTile().getRow();
         int col = king.getTile().getCol();
@@ -264,9 +264,9 @@ public class Board {
             boolean canContinue = true;
             while (canContinue) {
                 if (withinBounds(row+(i*diagonal[0]),col+(i*diagonal[1]))) {
-                    Tile tile = tiles[row+(i*diagonal[0])][col+(i*diagonal[1])];
+                    TileView tile = tiles[row+(i*diagonal[0])][col+(i*diagonal[1])];
                     if (tile.hasPiece() && (tile.getPiece().isWhite() != king.isWhite())) {
-                        Piece piece = tile.getPiece();
+                        PieceView piece = tile.getPiece();
                         if (piece.isBishop() || piece.isQueen()
                                 || (piece.isPawn() && king.isWhite() != piece.isWhite() && i == 1)) {
                             attackingMoves.add(tile);
@@ -289,9 +289,9 @@ public class Board {
             boolean canContinue = true;
             while (canContinue) {
                 if (withinBounds(row+(i*horizontal[0]),col+(i*horizontal[1]))) {
-                    Tile tile = tiles[row+(i*horizontal[0])][col+(i*horizontal[1])];
+                    TileView tile = tiles[row+(i*horizontal[0])][col+(i*horizontal[1])];
                     if (tile.hasPiece() && (tile.getPiece().isWhite() != king.isWhite())) {
-                        Piece piece = tile.getPiece();
+                        PieceView piece = tile.getPiece();
                         if (piece.isRook() || piece.isQueen()) {
                             attackingMoves.add(tile);
                         }
@@ -310,9 +310,9 @@ public class Board {
         //L-shaped: knight
         for(int[] offset : knightOffsets) {
             if(withinBounds(row+offset[0],col+offset[1])) {
-                Tile tile = tiles[row+offset[0]][col+offset[1]];
+                TileView tile = tiles[row+offset[0]][col+offset[1]];
                 if(tile.hasPiece()) {
-                    Piece piece = tile.getPiece();
+                    PieceView piece = tile.getPiece();
                     if(piece.isKnight() && tile.getPiece().isWhite() != king.isWhite()) {
                         attackingMoves.add(tile);
                     }
@@ -338,7 +338,7 @@ public class Board {
      * @param attackingKing, the tiles attacking the King
      * @param canMove, the list of tiles to be written to (cleared before writing)
      */
-    public final void kingCanMove(Piece king, ArrayList<Tile> attackingKing, ArrayList<Tile> canMove) {
+    public final void kingCanMove(PieceView king, ArrayList<TileView> attackingKing, ArrayList<TileView> canMove) {
         canMove.clear();
         int row = king.getTile().getRow();
         int col = king.getTile().getCol();
@@ -352,7 +352,7 @@ public class Board {
         //diagonals
         for(int[] offset : diagonalOffsets) {
             if(withinBounds(row+offset[0],col+offset[1])) {
-                Tile tileToMove = tiles[row+offset[0]][col+offset[1]];
+                TileView tileToMove = tiles[row+offset[0]][col+offset[1]];
                 if((!tileToMove.hasPiece() 
                 || (tileToMove.getPiece().isWhite() != king.isWhite()))
                 && !inCheck(king, row+offset[0], col+offset[1])
@@ -375,7 +375,7 @@ public class Board {
         int i= 0;
         for(int[] offset : horizontalOffsets) {
             if(withinBounds(row+offset[0],col+offset[1])) {
-                Tile tileToMove = tiles[row+offset[0]][col+offset[1]];
+                TileView tileToMove = tiles[row+offset[0]][col+offset[1]];
                 if((!tileToMove.hasPiece() 
                 || (tileToMove.getPiece().isWhite() != king.isWhite()))
                 && !inCheck(king, row+offset[0], col+offset[1])
@@ -416,12 +416,12 @@ public class Board {
      * @param king, the given King
      * @param whiteListed, the ArrayList to be written to, representing the WhiteList
      */
-    public void attackWhiteListed(ArrayList<Tile> attackingKing, Piece king, ArrayList<Tile> whiteListed) {
+    public void attackWhiteListed(ArrayList<TileView> attackingKing, PieceView king, ArrayList<TileView> whiteListed) {
         whiteListed.clear();
         if(attackingKing.size() != 1) {
             return;
         }
-        Tile attack = attackingKing.get(0);
+        TileView attack = attackingKing.get(0);
         if(attack.hasPiece() && attack.getPiece().isKnight()) {
             whiteListed.add(attack);
             return;
@@ -433,7 +433,7 @@ public class Board {
         boolean atAttacker = false; //loop until at attacker
         while (!atAttacker) {
             if(withinBounds(row+r,col+c)) {
-                Tile t = tiles[row+r][col+c];
+                TileView t = tiles[row+r][col+c];
                 if (t.getPiece() == attack.getPiece()) {
                     atAttacker = true;
                 }
@@ -463,7 +463,7 @@ public class Board {
      * @param game, the game each Piece belongs to (determines a Piece effect on
      * Game flow and Game GUI)
      */
-    public final void initWhiteBoard(byte[][] board, Game game) {
+    public final void initWhiteBoard(byte[][] board, GameView game) {
         blackNotKing.clear();
         whiteNotKing.clear();
         Pane boardUI = new Pane();
@@ -471,11 +471,11 @@ public class Board {
         //i is row, j is column
         for(int i = 0; i < HEIGHT; i++) {
             for(int j = 0; j < WIDTH; j++) {
-                Tile tile = new Tile(isLight, i, j, true, game);
+                TileView tile = new TileView(isLight, i, j, true, game);
                 tiles[i][j] = tile;
                 boardUI.getChildren().add(tile);
                 isLight = !isLight;
-                Piece piece = NOTATION_TO_CONSTRUCTOR_TABLE[board[i][j]].createPiece(tiles[i][j],game.getApp().getPath());
+                PieceView piece = NOTATION_TO_CONSTRUCTOR_TABLE[board[i][j]].createPiece(tiles[i][j],game.getApp().getPath());
                 if(piece != null) {
                     if(piece.isWhite()) {
                         if(piece.isKing()) {
@@ -522,7 +522,7 @@ public class Board {
      * @param game, the game each Piece belongs to (determines a Piece effect on
      * Game flow and Game GUI)
      */
-    public final void initBlackBoard(byte[][] board, Game game) {
+    public final void initBlackBoard(byte[][] board, GameView game) {
         blackNotKing.clear();
         whiteNotKing.clear();
         Pane boardUI = new Pane();
@@ -530,11 +530,11 @@ public class Board {
         //i is row, j is column
         for(int i = 0; i < HEIGHT; i++) {
             for(int j = 0; j < WIDTH; j++) {
-                Tile tile = new Tile(IsLight, i, j, false, game);
+                TileView tile = new TileView(IsLight, i, j, false, game);
                 tiles[i][j] = tile;
                 boardUI.getChildren().add(tile);
                 IsLight = !IsLight;
-                Piece piece = NOTATION_TO_CONSTRUCTOR_TABLE[board[i][j]].createPiece(tiles[i][j],game.getApp().getPath());
+                PieceView piece = NOTATION_TO_CONSTRUCTOR_TABLE[board[i][j]].createPiece(tiles[i][j],game.getApp().getPath());
                 if(piece != null) {
                     if(piece.isWhite()) {
                         if(piece.isKing()) {

@@ -35,7 +35,7 @@ import java.nio.file.Paths;
  *
  * @author Joseph
  */
-public class Selectable extends Pane {
+public class SelectableView extends Pane {
     
     public String whiteQueen;
     public String blackQueen;
@@ -50,19 +50,19 @@ public class Selectable extends Pane {
     public double tileCircleSize;
     public static final Color GREY = Color.rgb(90,90,90,0.5); 
     public static final Color LIGHT_GREY = Color.rgb(110,110,110,0.5); 
-    private final Tile tile;
-    private final Game controller;
+    private final TileView tile;
+    private final GameView controller;
     private final Circle noPiece;
     private final Rectangle rec;
     private final Shape shape;
     private final Shape crown;
     public static final String IMG_ICON_PATH = "src/main/resources/blackknight.png"; //icon paths
     
-    public Tile getTile() {
+    public TileView getTile() {
         return tile;
     }
 
-    public Game getController() {
+    public GameView getController() {
         return controller;
     }
     
@@ -94,7 +94,7 @@ public class Selectable extends Pane {
      * @param castle, color of castle ring 
      * @param app, object of application
      */
-    public Selectable(Tile tile, Game controller, Color hover, Color ring, Color solid, Color castle, ChessLite app) {
+    public SelectableView(TileView tile, GameView controller, Color hover, Color ring, Color solid, Color castle, ChessLite app) {
         setPaths(app.getPath());
         setSizes(app.getScale());
         this.setStyle("-fx-cursor: hand;");

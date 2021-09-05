@@ -4,10 +4,10 @@
  */
 package chess.ai.ChessAI.gui.pieces;
 
-import chess.ai.ChessAI.gui.Game;
+import chess.ai.ChessAI.gui.GameView;
 import chess.ai.ChessAI.gui.GameInfo;
-import chess.ai.ChessAI.gui.Piece;
-import chess.ai.ChessAI.gui.Tile;
+import chess.ai.ChessAI.gui.PieceView;
+import chess.ai.ChessAI.gui.TileView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author Joseph
  */
-public final class King extends Piece{
+public final class King extends PieceView {
     
     /*
      * Attack pattern:
@@ -34,7 +34,7 @@ public final class King extends Piece{
      * O    O    O    O    O    O    O    O 
      */
     
-    private final ArrayList<Tile> availableCastle = new ArrayList<>();
+    private final ArrayList<TileView> availableCastle = new ArrayList<>();
     
     public String whiteKing;
     public String blackKing;
@@ -51,7 +51,7 @@ public final class King extends Piece{
      * @param tile tile piece belongs to
      * @param path for image
     */
-    public King(boolean isWhite, Tile tile, String path) {
+    public King(boolean isWhite, TileView tile, String path) {
         super(isWhite, tile);
         setPaths(path);
         Image image = null;
@@ -75,17 +75,17 @@ public final class King extends Piece{
     @Override
     public void pieceAvailableMoves() {
         availableCastle.clear();
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = getTile().getRow();
         int col = getTile().getCol();
-        ArrayList<Tile> available = getAvailable();
+        ArrayList<TileView> available = getAvailable();
         available.addAll(controller.kingMoves());
         
         //castle
         int bottomRow = isWhite() ? 0 : 7;
         if (row == bottomRow && col == 4) {
-            Tile rookTile = tiles[row][col+3];
+            TileView rookTile = tiles[row][col+3];
             if (controller.getAttackingKing().isEmpty()
                     && !controller.inCheck(this, row, col+1) && !controller.inCheck(this, row, col+2)
                     && !tiles[row][col+1].hasPiece() && !tiles[row][col+2].hasPiece()
@@ -105,19 +105,19 @@ public final class King extends Piece{
     }
     
     @Override
-    public void pieceAvailableMoves(ArrayList<Tile> whiteList) {
+    public void pieceAvailableMoves(ArrayList<TileView> whiteList) {
         availableCastle.clear();
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = getTile().getRow();
         int col = getTile().getCol();
-        ArrayList<Tile> available = getAvailable();
+        ArrayList<TileView> available = getAvailable();
         available.addAll(controller.kingMoves());
         
         //castle
         int bottomRow = isWhite() ? 0 : 7;
         if (row == bottomRow && col == 4) {
-            Tile rookTile = tiles[row][col+3];
+            TileView rookTile = tiles[row][col+3];
             if (controller.getAttackingKing().isEmpty()
                     && !controller.inCheck(this, row, col+1) && !controller.inCheck(this, row, col+2)
                     && !tiles[row][col+1].hasPiece() && !tiles[row][col+2].hasPiece()

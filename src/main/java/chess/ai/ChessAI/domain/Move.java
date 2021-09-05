@@ -1,15 +1,21 @@
 /*
- * Class for the to store a Move made in a GameView
+ * Class for the to store a Move made in a Game
  * 7/3/20
- */
-package chess.ai.ChessAI.gui;
+ *//*
+
+package chess.ai.ChessAI.domain;
+
+import chess.ai.ChessAI.domain.pieces.Piece;
+import chess.ai.ChessAI.gui.GameView;
 
 import java.util.ArrayList;
 
+*/
 /**
  *
  * @author Joseph
- */
+ *//*
+
 public class Move {
     
     public static final String[] NUMBER_TO_LETTER_TABLE = {"a","b","c","d","e","f","g","h"}; //used in conversion to notation
@@ -20,7 +26,7 @@ public class Move {
     private final byte[][] board; //byte board to be stored
     private final int[] oldPos = new int[2];
     private final int[] newPos = new int[2];
-    private PieceView pieceMoved;
+    private Piece pieceMoved;
     private final int castleStatus;
     private String notation;
     private boolean capture = false;
@@ -48,11 +54,11 @@ public class Move {
         return newPos;
     }
     
-    public PieceView getPieceMoved() {
+    public Piece getPieceMoved() {
         return pieceMoved;
     }
 
-    public void setPieceMoved(PieceView pieceMoved) {
+    public void setPieceMoved(Piece pieceMoved) {
         this.pieceMoved = pieceMoved;
     }
     
@@ -72,7 +78,8 @@ public class Move {
         this.notation = notation;
     }
     
-    /**
+    */
+/**
      * Constructs a new Move
      * @param oldRow to be moved from
      * @param oldCol to be moved from
@@ -84,8 +91,9 @@ public class Move {
      * @param canQueenSideCastleIn, whether or not queen could castle last Move
      * @param forWhite, side move is for
      * @param taken whether a piece was taken this turn
-     */
-    public Move(int oldRow, int oldCol, int newRow, int newCol, PieceView moved, byte[][] boardIn,
+     *//*
+
+    public Move(int oldRow, int oldCol, int newRow, int newCol, Piece moved, byte[][] boardIn,
                 boolean canKingSideCastleIn, boolean canQueenSideCastleIn, boolean forWhite, boolean taken) {
         oldPos[0] = oldRow;
         oldPos[1] = oldCol;
@@ -102,21 +110,22 @@ public class Move {
             notation = calcPiecePrefix(pieceMoved,oldPos,newPos) + "x" + getCharacterNotation(newPos[1]) + (newPos[0]+1);
         }
         if(forWhite) {
-            if(moved.getTile().getCol() == GameView.LOWER_BOUNDARY && moved.getTile().getRow() == GameView.LOWER_BOUNDARY) {
+            if(moved.getTile().getColBoard() == GameView.LOWER_BOUNDARY && moved.getTile().getRowBoard() == GameView.LOWER_BOUNDARY) {
                 canQueenSideCastle = false;
-            } else if(moved.getTile().getCol() == GameView.UPPER_BOUNDARY && moved.getTile().getRow() == GameView.LOWER_BOUNDARY) {
+            } else if(moved.getTile().getColBoard() == GameView.UPPER_BOUNDARY && moved.getTile().getRowBoard() == GameView.LOWER_BOUNDARY) {
                 canKingSideCastle = false;
             }
         } else {
-            if(moved.getTile().getCol() == GameView.LOWER_BOUNDARY && moved.getTile().getRow() == GameView.UPPER_BOUNDARY) {
+            if(moved.getTile().getColBoard() == GameView.LOWER_BOUNDARY && moved.getTile().getRowBoard() == GameView.UPPER_BOUNDARY) {
                 canQueenSideCastle = false;
-            } else if(moved.getTile().getCol() == GameView.UPPER_BOUNDARY && moved.getTile().getRow() == GameView.UPPER_BOUNDARY) {
+            } else if(moved.getTile().getColBoard() == GameView.UPPER_BOUNDARY && moved.getTile().getRowBoard() == GameView.UPPER_BOUNDARY) {
                 canKingSideCastle = false;
             }
         }
     }
     
-    /**
+    */
+/**
      * Constructs a new Move
      * @param oldRow to be moved from
      * @param oldCol to be moved from
@@ -124,7 +133,8 @@ public class Move {
      * @param newCol to be moved to
      * @param castleType KING_SIDE_CASTLE or QUEEN_SIDE_CASTLE
      * @param boardIn, ByteBoard to be stored
-     */
+     *//*
+
     public Move(int oldRow, int oldCol, int newRow, int newCol, int castleType, byte[][] boardIn) {
         oldPos[0] = oldRow;
         oldPos[1] = oldCol;
@@ -137,11 +147,13 @@ public class Move {
         notation = isQueenSide(castleStatus) ? "0-0-0" : "0-0";
     }
     
-    /**
+    */
+/**
      * Can be used to set the notation of a move
      * @deprecated because notation is already set in construction, re-setting notation
      * could lead to the WRONG information being set if called at the wrong time
-     */
+     *//*
+
     @Deprecated
     public void setNotation() {
         if(castleStatus == NO_CASTLE) {
@@ -157,7 +169,8 @@ public class Move {
         }
     }
     
-    /**
+    */
+/**
      * Calculates the piece prefix to be used
      * 
      * In the event there are multiple pieces of the same type that game move to
@@ -168,18 +181,19 @@ public class Move {
      * @param old, old position of the move
      * @param loc, new location the piece is moved to
      * @return the piece prefix as string (including position specifier if needed)
-     */
-    public final String calcPiecePrefix(PieceView piece, int[] old, int[] loc) {
+     *//*
+
+    public final String calcPiecePrefix(Piece piece, int[] old, int[] loc) {
         String str = pieceMoved.getNotation();
         boolean matchingCol = false;
         boolean matchingRow = false;
         ArrayList<int[]> commonPieceLocations = piece.calcCommonPieceLocations(loc);
         if(!commonPieceLocations.isEmpty()) {
             for (int[] location : commonPieceLocations) {
-                if (location[0] == piece.getTile().getRow()) {
+                if (location[0] == piece.getTile().getRowBoard()) {
                     matchingRow = true;
                 }
-                if (location[1] == piece.getTile().getCol()) {
+                if (location[1] == piece.getTile().getColBoard()) {
                     matchingCol = true;
                 }
             }
@@ -196,11 +210,13 @@ public class Move {
         return str;
     }
     
-    /**
+    */
+/**
      * Returns the character notation for a given number 
      * @param num, the number (typically a Column)
      * @return the notation
-     */
+     *//*
+
     public static String getCharacterNotation(int num) {
         return NUMBER_TO_LETTER_TABLE[num];
     }
@@ -226,7 +242,7 @@ public class Move {
         notation = notation + "#";
     }
     
-    public void setPromotionNot(PieceView promotionTo) {
+    public void setPromotionNot(Piece promotionTo) {
         notation = notation + promotionTo.getNotation();
     }
     
@@ -246,11 +262,13 @@ public class Move {
         return canQueenSideCastle;
     }
     
-    /**
+    */
+/**
      * Calculates whether enPassant can be performed from a move
      * @param forWhite, whether the enPassant is for white
      * @return whether or not enPassant can be performed
-     */
+     *//*
+
     public boolean canEnPassant(boolean forWhite) {
         if(pieceMoved != null) {
             return pieceMoved.isPawn() && ((forWhite && oldPos[0] == 1 && newPos[0] == 3) || 
@@ -261,3 +279,4 @@ public class Move {
     }
 
 }
+*/

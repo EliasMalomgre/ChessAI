@@ -4,7 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="710d30c9-3d86-43d4-8e71-647d87c7a772" name="Default Changelist" comment="" />
+    <list default="true" id="710d30c9-3d86-43d4-8e71-647d87c7a772" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/BoardView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/ChessLite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/ChessLite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/GameInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/domain/GameInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/domain/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/NotationBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/NotationBoardView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/PieceView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/PieceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/PieceType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/Selectable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/SelectableView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/TileView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/TimedGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/TimedGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Bishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/King.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Queen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/pieces/Rook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/domain/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/SimulationResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/SimulationResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/SimulationTimeStruct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/SimulationTimeStruct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/actions/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/actions/Action.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/actions/ChanceAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/actions/ChanceAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/actions/GroupNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/domain/ai/actions/GroupNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/services/AiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/services/AiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/services/MonteCarloService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/mcts/services/MonteCarloService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,6 +74,16 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -54,6 +92,9 @@
     </option>
   </component>
   <component name="ProjectId" id="1xKXRUnYy6rxFBkb6b3RxS9ZqT0" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -62,7 +103,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
@@ -70,10 +111,15 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="chess.ai.ChessAI.domain" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Bestanden\Documenten\programs\chess\ChessAI\src\main\java\chess\ai\ChessAI\gui" />
+      <recent name="D:\Bestanden\Documenten\programs\chess\ChessAI\src\main\java\chess\ai\ChessAI\domain\pieces" />
+      <recent name="D:\Bestanden\Documenten\programs\chess\ChessAI\src\main\java\chess\ai\ChessAI\domain" />
       <recent name="D:\Bestanden\Documenten\programs\chess\ChessAI\src\main\java\chess\ai\ChessAI" />
       <recent name="D:\Bestanden\Documenten\programs\chess\ChessAI\src\main\resources" />
-      <recent name="D:\Bestanden\Documenten\programs\chess\ChessAI" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Launcher">
@@ -82,7 +128,7 @@
       <module name="ChessAI.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="chess.ai.ChessAI.gui.*" />
+          <option name="PATTERN" value="chess.ai.ChessAI.domain.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -95,23 +141,10 @@
       <module name="ChessAI.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="chess.ai.ChessAI.gui.*" />
+          <option name="PATTERN" value="chess.ai.ChessAI.domain.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -159,7 +192,10 @@
       <option name="presentableId" value="Default" />
       <updated>1630104746056</updated>
       <workItem from="1630104748765" duration="2499000" />
-      <workItem from="1630154822421" duration="20347000" />
+      <workItem from="1630154822421" duration="20685000" />
+      <workItem from="1630335270011" duration="1734000" />
+      <workItem from="1630351597142" duration="16402000" />
+      <workItem from="1630861427196" duration="5226000" />
     </task>
     <servers />
   </component>
@@ -171,22 +207,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630169313867" />
-    <state width="1892" height="281" key="GridCell.Tab.0.bottom" timestamp="1630272981203">
+    <state x="765" y="223" key="#com.intellij.ide.util.MemberChooser" timestamp="1630438735201">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1892" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630272981203" />
-    <state width="1892" height="281" key="GridCell.Tab.0.center" timestamp="1630272981203">
+    <state x="765" y="223" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630438735201" />
+    <state x="454" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1630336121252">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1892" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630272981203" />
-    <state width="1892" height="281" key="GridCell.Tab.0.left" timestamp="1630272981203">
+    <state x="454" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630336121252" />
+    <state width="1877" height="275" key="GridCell.Tab.0.bottom" timestamp="1630795822540">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1892" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630272981203" />
-    <state width="1892" height="281" key="GridCell.Tab.0.right" timestamp="1630272981203">
+    <state width="1877" height="275" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630795822540" />
+    <state width="1877" height="275" key="GridCell.Tab.0.center" timestamp="1630795822539">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1892" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630272981203" />
+    <state width="1877" height="275" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630795822539" />
+    <state width="1877" height="275" key="GridCell.Tab.0.left" timestamp="1630795822539">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="275" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630795822539" />
+    <state width="1877" height="275" key="GridCell.Tab.0.right" timestamp="1630795822540">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="275" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630795822540" />
     <state width="1892" height="336" key="GridCell.Tab.1.bottom" timestamp="1630239583531">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -207,6 +251,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630155363267" />
+    <state x="668" y="52" width="583" height="936" key="find.popup" timestamp="1630616882597">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="668" y="52" width="583" height="936" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1630616882597" />
     <state x="624" y="244" width="672" height="677" key="run.anything.popup" timestamp="1630155136222">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -234,6 +282,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/ChessLite.java</url>
           <line>217</line>
           <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/chess/ai/ChessAI/gui/GameInfo.java</url>
+          <line>315</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

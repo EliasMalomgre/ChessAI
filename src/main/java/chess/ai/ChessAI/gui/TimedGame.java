@@ -29,7 +29,7 @@ import java.nio.file.Paths;
  *
  * @author Joseph
  */
-public class TimedGame extends Game {
+public class TimedGame extends GameView {
 
     private final double increment; //seconds
     private double blackValue; //real value of Timer
@@ -187,7 +187,7 @@ public class TimedGame extends Game {
     }
 
     @Override
-    public void makeMove(Tile tile) {
+    public void makeMove(TileView tile) {
         super.makeMove(tile);
         //after both black and white have made one move, the timer starts
         //time is not added for the first 2 turns
@@ -201,13 +201,13 @@ public class TimedGame extends Game {
     }
 
     @Override
-    public void makeMoveEnPassant(Tile tile, int offset) {
+    public void makeMoveEnPassant(TileView tile, int offset) {
         super.makeMoveEnPassant(tile, offset);
         addTime();
     }
 
     @Override
-    public void makeMovePromotion(Tile tile, Piece piece) {
+    public void makeMovePromotion(TileView tile, PieceView piece) {
         super.makeMovePromotion(tile, piece);
         addTime();
     }

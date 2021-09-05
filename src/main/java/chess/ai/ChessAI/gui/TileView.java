@@ -19,7 +19,7 @@ import java.util.Objects;
  *
  * @author Joseph
  */
-public final class Tile extends StackPane {
+public final class TileView extends StackPane {
 
     public static final Color CHECK = Color.rgb(139,0,0,0.7);
     public static final Color CHECK_ORANGE = Color.rgb(200,120,0,0.7);
@@ -48,8 +48,8 @@ public final class Tile extends StackPane {
     private double yReal;
     private boolean isLight;
     private boolean isSelected;
-    private Piece piece; //piece on tile
-    private final Game controller; //controller to redirect flow to
+    private PieceView piece; //piece on tile
+    private final GameView controller; //controller to redirect flow to
     private final Rectangle rec; //rendered shapes
     private final Rectangle highlight;
     private final Shape checkShape;
@@ -62,7 +62,7 @@ public final class Tile extends StackPane {
         this.tileSize = 100*scale;
     }
 
-    public Game getController() {
+    public GameView getController() {
         return controller;
     }
     
@@ -74,11 +74,11 @@ public final class Tile extends StackPane {
         return piece != null;
     }
     
-    public Piece getPiece() {
+    public PieceView getPiece() {
         return piece;
     }
 
-    public void setPiece(Piece piece) {
+    public void setPiece(PieceView piece) {
         this.piece = piece;
     }
 
@@ -209,7 +209,7 @@ public final class Tile extends StackPane {
      * Performs a move from the piece on this tile to another given tile
      * @param tile to move to
      */
-    public void movePiece(Tile tile) {
+    public void movePiece(TileView tile) {
         tile.setPiece(this.getPiece()); 
         this.getPiece().setTile(tile);
         this.getPiece().moveToSlowly(tile);
@@ -221,7 +221,7 @@ public final class Tile extends StackPane {
      * @param tile to move to
      * @param taken, the piece to be Taken en passant
      */
-    public void movePieceEnPassant(Tile tile, Tile taken) {
+    public void movePieceEnPassant(TileView tile, TileView taken) {
         tile.setPiece(this.getPiece()); 
         this.getPiece().setTile(tile);
         this.getPiece().moveToSlowly(tile);
@@ -238,7 +238,7 @@ public final class Tile extends StackPane {
      * @param controller, the Game controller the Tile belongs to, and will redirect
      * flow back to
      */
-    public Tile(boolean light, int row, int col, boolean boardIsWhite, Game controller) {
+    public TileView(boolean light, int row, int col, boolean boardIsWhite, GameView controller) {
         setTileSize(controller.getApp().getScale());
         this.isLight = light;
         this.rowBoard = row;
@@ -247,16 +247,16 @@ public final class Tile extends StackPane {
         
         if(boardIsWhite) {
             xReal = col * tileSize;
-            yReal = ((Game.WIDTH-1) * tileSize) - (row * tileSize);
+            yReal = ((GameView.WIDTH-1) * tileSize) - (row * tileSize);
             relocate(xReal, yReal);
         } else {
-            xReal = ((Game.HEIGHT-1) * tileSize) - (col * tileSize);
+            xReal = ((GameView.HEIGHT-1) * tileSize) - (col * tileSize);
             yReal = row * tileSize;
             relocate(xReal, yReal);
         }
         
         setOnMousePressed(e -> {
-            Tile last = getController().getSelectedTile();
+            TileView last = getController().getSelectedTile();
             if (last != null) {
                 last.getPiece().setCloseable(false);
             }

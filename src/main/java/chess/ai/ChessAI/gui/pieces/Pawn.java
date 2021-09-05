@@ -4,6 +4,7 @@
  */
 package chess.ai.ChessAI.gui.pieces;
 
+import chess.ai.ChessAI.gui.GameInfo;
 import chess.ai.ChessAI.gui.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author Joseph
  */
-public final class Pawn extends Piece{
+public final class Pawn extends PieceView {
     
      /*
      * Attack pattern: 
@@ -36,8 +37,8 @@ public final class Pawn extends Piece{
      * 
      */
     
-    private final ArrayList<Tile> availableEnPassant = new ArrayList<>();
-    private final ArrayList<Tile> availablePromotion = new ArrayList<>();
+    private final ArrayList<TileView> availableEnPassant = new ArrayList<>();
+    private final ArrayList<TileView> availablePromotion = new ArrayList<>();
     
     public String whitePawn;
     public String blackPawn;
@@ -54,7 +55,7 @@ public final class Pawn extends Piece{
      * @param tile tile piece belongs to
      * @param path, path for image
     */
-    public Pawn(boolean isWhite, Tile tile, String path) {
+    public Pawn(boolean isWhite, TileView tile, String path) {
         super(isWhite, tile);
         setPaths(path);
 
@@ -80,15 +81,15 @@ public final class Pawn extends Piece{
     public void pieceAvailableMoves() {
         availableEnPassant.clear();
         availablePromotion.clear();
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = getTile().getRow();
         int col = getTile().getCol();
-        ArrayList<Tile> available = getAvailable();
+        ArrayList<TileView> available = getAvailable();
         
         if(isWhite()) {
             if(withinBounds(row+1,col)) {
-                Tile firstTile = tiles[row+1][col];
+                TileView firstTile = tiles[row+1][col];
                 if(!firstTile .hasPiece()) {
                     if (row != 6) {
                         available.add(firstTile);
@@ -96,7 +97,7 @@ public final class Pawn extends Piece{
                         availablePromotion.add((firstTile));
                     }
                     if(getTile().getRow() == 1) {
-                        Tile secondTile = tiles[row+2][col];
+                        TileView secondTile = tiles[row+2][col];
                         if(!secondTile.hasPiece()) {
                             available.add(secondTile);
                         }
@@ -104,7 +105,7 @@ public final class Pawn extends Piece{
                 }
             }
            if(withinBounds(row+1,col+1)) {
-                Tile tile = tiles[row+1][col+1];
+                TileView tile = tiles[row+1][col+1];
                 if(tile.hasPiece() && 
                         tile.getPiece().isWhite() != isWhite()) {
                     if(row != 6){
@@ -115,7 +116,7 @@ public final class Pawn extends Piece{
                 }
             }
             if(withinBounds(row+1,col-1)) {
-                Tile tile = tiles[row+1][col-1];
+                TileView tile = tiles[row+1][col-1];
                 if(tile.hasPiece() && 
                         tile.getPiece().isWhite() != isWhite()) {
                     if(row != 6) {
@@ -128,8 +129,8 @@ public final class Pawn extends Piece{
             Move lastMove = controller.getLastMove();
             if(lastMove != null) {
                 if(withinBounds(row,col-1) && withinBounds(row+1,col-1)) {
-                    Tile toTake = tiles[row][col-1];
-                    Tile toMove = tiles[row+1][col-1];
+                    TileView toTake = tiles[row][col-1];
+                    TileView toMove = tiles[row+1][col-1];
                     if(row == 4 && toTake.hasPiece() 
                             && toTake.getPiece().isPawn() && 
                             toTake.getPiece().isWhite() != isWhite() 
@@ -139,8 +140,8 @@ public final class Pawn extends Piece{
                     }
                 }
                 if(withinBounds(row,col+1) && withinBounds(row+1,col+1)) {
-                    Tile toTake = tiles[row][col+1];
-                    Tile toMove = tiles[row+1][col+1];
+                    TileView toTake = tiles[row][col+1];
+                    TileView toMove = tiles[row+1][col+1];
                     if(row == 4 && toTake.hasPiece() 
                             && toTake.getPiece().isPawn() && 
                             toTake.getPiece().isWhite() != isWhite() 
@@ -152,7 +153,7 @@ public final class Pawn extends Piece{
             }
         } else {
             if(withinBounds(row-1,col)) {
-                Tile firstTile = tiles[row-1][col];
+                TileView firstTile = tiles[row-1][col];
                 if(!firstTile.hasPiece()) {
                     if(row != 1) {
                         available.add(firstTile);
@@ -160,7 +161,7 @@ public final class Pawn extends Piece{
                         availablePromotion.add(firstTile);
                     }
                     if(getTile().getRow() == 6) {
-                        Tile secondTile = tiles[row-2][col];
+                        TileView secondTile = tiles[row-2][col];
                         if(!secondTile.hasPiece()) {
                             available.add(secondTile);
                         }
@@ -168,7 +169,7 @@ public final class Pawn extends Piece{
                 }
             }
             if(withinBounds(row-1,col+1)) {
-                Tile tile = tiles[row-1][col+1];
+                TileView tile = tiles[row-1][col+1];
                 if(tile.hasPiece() && tile.getPiece().isWhite() != isWhite()) {
                     if(row != 1) {
                         available.add(tile);
@@ -178,7 +179,7 @@ public final class Pawn extends Piece{
                 }
             }
             if(withinBounds(row-1,col-1)) {
-                Tile tile = tiles[row-1][col-1];
+                TileView tile = tiles[row-1][col-1];
                 if(tile.hasPiece() && tile.getPiece().isWhite() != isWhite()) {
                     if(row != 1) {
                         available.add(tile);
@@ -190,8 +191,8 @@ public final class Pawn extends Piece{
             Move lastMove = controller.getLastMove();
             if(lastMove != null) {
                 if(withinBounds(row,col-1) && withinBounds(row-1,col-1)) {
-                    Tile toTake = tiles[row][col-1];
-                    Tile toMove = tiles[row-1][col-1];
+                    TileView toTake = tiles[row][col-1];
+                    TileView toMove = tiles[row-1][col-1];
                     if(row == 3 && toTake.hasPiece() 
                             && toTake.getPiece().isPawn() && 
                             toTake.getPiece().isWhite() != isWhite() 
@@ -201,8 +202,8 @@ public final class Pawn extends Piece{
                     }
                 }
                 if(withinBounds(row,col+1) && withinBounds(row-1,col-1)) {
-                    Tile toTake = tiles[row][col+1];
-                    Tile toMove = tiles[row-1][col+1];
+                    TileView toTake = tiles[row][col+1];
+                    TileView toMove = tiles[row-1][col+1];
                     if(row == 3 && toTake.hasPiece() 
                             && toTake.getPiece().isPawn() && 
                             toTake.getPiece().isWhite() != isWhite() 
@@ -216,18 +217,18 @@ public final class Pawn extends Piece{
     }
     
     @Override
-    public void pieceAvailableMoves(ArrayList<Tile> whiteList) {
+    public void pieceAvailableMoves(ArrayList<TileView> whiteList) {
         availableEnPassant.clear();
         availablePromotion.clear();
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = getTile().getRow();
         int col = getTile().getCol();
-        ArrayList<Tile> available = getAvailable();
+        ArrayList<TileView> available = getAvailable();
         
         if(isWhite()) {
             if(withinBounds(row+1,col)) {
-                Tile firstTile = tiles[row+1][col];
+                TileView firstTile = tiles[row+1][col];
                 if(!firstTile .hasPiece()) {
                     if (row != 6) {
                         if(whiteListed(whiteList, firstTile)) {
@@ -239,7 +240,7 @@ public final class Pawn extends Piece{
                         }
                     }
                     if(getTile().getRow() == 1) {
-                        Tile secondTile = tiles[row+2][col];
+                        TileView secondTile = tiles[row+2][col];
                         if(!secondTile.hasPiece() && whiteListed(whiteList, secondTile)) {
                             available.add(secondTile);
                         }
@@ -247,7 +248,7 @@ public final class Pawn extends Piece{
                 }
             }
            if(withinBounds(row+1,col+1)) {
-                Tile tile = tiles[row+1][col+1];
+                TileView tile = tiles[row+1][col+1];
                 if(whiteListed(whiteList, tile) && tile.hasPiece() && 
                         tile.getPiece().isWhite() != isWhite()) {
                     if(row != 6){
@@ -258,7 +259,7 @@ public final class Pawn extends Piece{
                 }
             }
             if(withinBounds(row+1,col-1)) {
-                Tile tile = tiles[row+1][col-1];
+                TileView tile = tiles[row+1][col-1];
                 if(whiteListed(whiteList, tile) && tile.hasPiece() && 
                         tile.getPiece().isWhite() != isWhite()) {
                     if(row != 6) {
@@ -271,8 +272,8 @@ public final class Pawn extends Piece{
             Move lastMove = controller.getLastMove();
             if(lastMove != null) {
                 if(withinBounds(row,col-1) && withinBounds(row+1,col-1)) {
-                    Tile toTake = tiles[row][col-1];
-                    Tile toMove = tiles[row+1][col-1];
+                    TileView toTake = tiles[row][col-1];
+                    TileView toMove = tiles[row+1][col-1];
                     if(whiteListed(whiteList, toTake) && row == 4 && toTake.hasPiece() 
                             && toTake.getPiece().isPawn() && 
                             toTake.getPiece().isWhite() != isWhite() 
@@ -282,8 +283,8 @@ public final class Pawn extends Piece{
                     }
                 }
                 if(withinBounds(row,col+1) && withinBounds(row+1,col+1)) {
-                    Tile toTake = tiles[row][col+1];
-                    Tile toMove = tiles[row+1][col+1];
+                    TileView toTake = tiles[row][col+1];
+                    TileView toMove = tiles[row+1][col+1];
                     if(whiteListed(whiteList, toTake) && row == 4 && toTake.hasPiece() 
                             && toTake.getPiece().isPawn() && 
                             toTake.getPiece().isWhite() != isWhite() 
@@ -295,7 +296,7 @@ public final class Pawn extends Piece{
             }
         } else {
             if(withinBounds(row-1,col)) {
-                Tile firstTile = tiles[row-1][col];
+                TileView firstTile = tiles[row-1][col];
                 if(!firstTile.hasPiece()) {
                     if(row != 1) {
                         if(whiteListed(whiteList, firstTile)) {
@@ -307,7 +308,7 @@ public final class Pawn extends Piece{
                         } 
                     }
                     if(getTile().getRow() == 6 ) {
-                        Tile secondTile = tiles[row-2][col];
+                        TileView secondTile = tiles[row-2][col];
                         if(!secondTile.hasPiece() && whiteListed(whiteList, secondTile)) {
                             available.add(secondTile);
                         }
@@ -315,7 +316,7 @@ public final class Pawn extends Piece{
                 }
             }
             if(withinBounds(row-1,col+1)) {
-                Tile tile = tiles[row-1][col+1];
+                TileView tile = tiles[row-1][col+1];
                 if(whiteListed(whiteList, tile) && tile.hasPiece() && 
                         tile.getPiece().isWhite() != isWhite()) {
                     if(row != 1) {
@@ -326,7 +327,7 @@ public final class Pawn extends Piece{
                 }
             }
             if(withinBounds(row-1,col-1)) {
-                Tile tile = tiles[row-1][col-1];
+                TileView tile = tiles[row-1][col-1];
                 if(whiteListed(whiteList, tile) && tile.hasPiece() && 
                         tile.getPiece().isWhite() != isWhite()) {
                     if(row != 1) {
@@ -339,8 +340,8 @@ public final class Pawn extends Piece{
             Move lastMove = controller.getLastMove();
             if(lastMove != null) {
                 if(withinBounds(row,col-1) && withinBounds(row-1,col-1)) {
-                    Tile toTake = tiles[row][col-1];
-                    Tile toMove = tiles[row-1][col-1];
+                    TileView toTake = tiles[row][col-1];
+                    TileView toMove = tiles[row-1][col-1];
                     if(whiteListed(whiteList, toTake) && row == 3 && toTake.hasPiece() 
                             && toTake.getPiece().isPawn() && 
                             toTake.getPiece().isWhite() != isWhite() 
@@ -350,8 +351,8 @@ public final class Pawn extends Piece{
                     }
                 }
                 if(withinBounds(row,col+1) && withinBounds(row-1,col-1)) {
-                    Tile toTake = tiles[row][col+1];
-                    Tile toMove = tiles[row-1][col+1];
+                    TileView toTake = tiles[row][col+1];
+                    TileView toMove = tiles[row-1][col+1];
                     if(whiteListed(whiteList, toTake) && row == 3 && toTake.hasPiece() 
                             && toTake.getPiece().isPawn() && 
                             toTake.getPiece().isWhite() != isWhite() 
@@ -386,24 +387,24 @@ public final class Pawn extends Piece{
     
     @Override
     public ArrayList<int[]> calcCommonPieceLocations(int[] location) {
-        Game controller = getController();
-        Tile[][] tiles = controller.getTiles();
+        GameView controller = getController();
+        TileView[][] tiles = controller.getTiles();
         int row = location[0];
         int col = location[1];
         ArrayList<int[]> locations = new ArrayList<>();
-        Tile tileLoc = tiles[row][col];
-        Tile tileBelow =  isWhite() ? tiles[row-1][col] : tiles[row+1][col];
+        TileView tileLoc = tiles[row][col];
+        TileView tileBelow =  isWhite() ? tiles[row-1][col] : tiles[row+1][col];
         if(tileLoc.hasPiece() || (tileBelow.hasPiece() && tileBelow.getPiece().isPawn() && tileBelow.getPiece() != this)) {
             if(isWhite()) {
                 if(withinBounds(row-1,col+1)) {
-                    Tile tile = tiles[row-1][col+1];
+                    TileView tile = tiles[row-1][col+1];
                     if((tile.hasPiece() && tile.getPiece().isWhite() == isWhite() && tile.getPiece() != this && tile.getPiece().isPawn())) {
                         int[] loc = {row-1,col+1};
                         locations.add(loc);
                     }
                 }
                 if(withinBounds(row-1,col-1)) {
-                    Tile tile = tiles[row-1][col-1];
+                    TileView tile = tiles[row-1][col-1];
                     if((tile.hasPiece() && tile.getPiece().isWhite() == isWhite() && tile.getPiece() != this && tile.getPiece().isPawn())) {
                         int[] loc = {row-1,col-1};
                         locations.add(loc);
@@ -411,14 +412,14 @@ public final class Pawn extends Piece{
                 }
             } else {
                 if(withinBounds(row+1,col+1)) {
-                    Tile tile = tiles[row+1][col+1];
+                    TileView tile = tiles[row+1][col+1];
                     if((tile.hasPiece() && tile.getPiece().isWhite() == isWhite() && tile.getPiece() != this && tile.getPiece().isPawn())) {
                         int[] loc = {row+1,col+1};
                         locations.add(loc);
                     }
                 }
                 if(withinBounds(row+1,col-1)) {
-                    Tile tile = tiles[row+1][col-1];
+                    TileView tile = tiles[row+1][col-1];
                     if((tile.hasPiece() && tile.getPiece().isWhite() == isWhite() && tile.getPiece() != this && tile.getPiece().isPawn())) {
                         int[] loc = {row+1,col-1};
                         locations.add(loc);

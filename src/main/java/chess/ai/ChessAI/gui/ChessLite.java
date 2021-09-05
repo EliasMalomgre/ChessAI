@@ -302,7 +302,7 @@ public class ChessLite extends Application {
      * @param stage, stage window belongs to
      * @param game, the game to be re-rendered for upon change
      */
-    public void openAppearancePanel(Stage stage, Game game) {
+    public void openAppearancePanel(Stage stage, GameView game) {
         BorderPane newRoot = new BorderPane();
         Scene secondScene = new Scene(newRoot, stage.getScene().getWidth()/2.3, stage.getScene().getHeight()/1.5);
         //secondScene.getStylesheets().add(ChessLite.class.getResource("src/main/resources/chess.css").toExternalForm());
@@ -413,7 +413,7 @@ public class ChessLite extends Application {
      * @return Play Pane for Game
      */
     public Pane createPlayPane(Stage stage) {
-        Game controller = Game.constructGame(true, stage, this);
+        GameView controller = GameView.constructGame(true, stage, this);
         return controller.getRoot();
     }
 

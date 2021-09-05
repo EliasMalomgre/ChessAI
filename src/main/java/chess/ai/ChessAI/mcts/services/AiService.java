@@ -1,7 +1,7 @@
 package chess.ai.ChessAI.mcts.services;
 
 import chess.ai.ChessAI.mcts.config.AiConfig;
-import chess.ai.ChessAI.mcts.domain.Game;
+import chess.ai.ChessAI.domain.Game;
 import chess.ai.ChessAI.mcts.domain.ai.Node;
 import chess.ai.ChessAI.mcts.domain.ai.SimulationTimeStruct;
 import chess.ai.ChessAI.mcts.domain.ai.State;

@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Joseph
  */
-public abstract class Piece extends StackPane {
+public abstract class PieceView extends StackPane {
     
     /*
      * Attack Pattern Key: 
@@ -31,8 +31,8 @@ public abstract class Piece extends StackPane {
     private double oldX, oldY; 
     private double initialX, initialY; //initial position when mouse is clicked
     private final boolean isWhite;
-    private Tile tile; //tile piece is on
-    private final ArrayList<Tile> available = new ArrayList<>(); //available tiles of piece used for render
+    private TileView tile; //tile piece is on
+    private final ArrayList<TileView> available = new ArrayList<>(); //available tiles of piece used for render
 
     public double getTileSize() {
         return tileSize;
@@ -50,15 +50,15 @@ public abstract class Piece extends StackPane {
         this.closeable = closeable;
     }
 
-    public ArrayList<Tile> getAvailable() {
+    public ArrayList<TileView> getAvailable() {
         return available;
     }
     
-    public Tile getTile() {
+    public TileView getTile() {
         return tile;
     }
 
-    public final Game getController() {
+    public final GameView getController() {
         return tile.getController();
     }
 
@@ -70,7 +70,7 @@ public abstract class Piece extends StackPane {
         this.oldY = oldY;
     }
 
-    public void setTile(Tile tile) {
+    public void setTile(TileView tile) {
         this.tile = tile;
     }
 
@@ -119,7 +119,7 @@ public abstract class Piece extends StackPane {
      * @param isWhiteIn side of the piece
      * @param tileIn tile piece belongs to
     */
-    public Piece(boolean isWhiteIn, Tile tileIn) {
+    public PieceView(boolean isWhiteIn, TileView tileIn) {
         this.setStyle("-fx-cursor: hand;");
         isWhite = isWhiteIn;
         tile = tileIn;
@@ -156,7 +156,7 @@ public abstract class Piece extends StackPane {
             if(drag) {
                 double x = e.getSceneX() - mouseX + initialX;
                 double y = e.getSceneY() - mouseY + initialY;
-                for(Selectable selectable : getController().getSelectable()) {
+                for(SelectableView selectable : getController().getSelectable()) {
                     if(isSelectableCollision(e.getSceneX(), e.getSceneY(), selectable)) {
                         oldX = x;
                         oldY = y;
@@ -187,7 +187,7 @@ public abstract class Piece extends StackPane {
      * @param selectable to check
      * @return true if within bounds 
      */
-    private boolean isSelectableCollision(double x, double y, Selectable selectable) {
+    private boolean isSelectableCollision(double x, double y, SelectableView selectable) {
         Bounds selectableBounds = selectable.localToScene(selectable.getBoundsInLocal());
         return selectableBounds.contains(x, y);
     }
@@ -214,7 +214,7 @@ public abstract class Piece extends StackPane {
      * Move a piece to a tile (intended to be used behind the scenes)
      * @param tile to move to
      */
-    public final void moveTo(Tile tile) {
+    public final void moveTo(TileView tile) {
         oldX = tile.getXReal();
         oldY = tile.getYReal();
         setTranslateX(oldX);
@@ -225,7 +225,7 @@ public abstract class Piece extends StackPane {
      * Move to piece to a tile with GUI delay (intended for user to see)
      * @param tile to move to
      */
-    public final void moveToSlowly(Tile tile) {
+    public final void moveToSlowly(TileView tile) {
         double x = tile.getXReal() - oldX;
         double y = tile.getYReal() - oldY;
         int time = 150;
@@ -271,7 +271,7 @@ public abstract class Piece extends StackPane {
      */
     protected void doRender() {
         boolean isWhiteTurn = getController().isWhiteTurn();
-        Tile last = getController().getSelectedTile();
+        TileView last = getController().getSelectedTile();
         if(last != null && last.getPiece() != this) {
             last.getPiece().setCloseable(false);
         }
@@ -321,7 +321,7 @@ public abstract class Piece extends StackPane {
      * if the tiles are within the whiteList
      * @param whiteListed, whiteList used to filter out moves
      */
-    public abstract void pieceAvailableMoves(ArrayList<Tile> whiteListed);
+    public abstract void pieceAvailableMoves(ArrayList<TileView> whiteListed);
     
     /**
      * Calculates the available moves for a piece (utilizes access to board through
@@ -339,10 +339,10 @@ public abstract class Piece extends StackPane {
      */
     public void calcAvailableMoves() {
         available.clear();
-        ArrayList<Tile> attackingKing = getController().getAttackingKing();
-        ArrayList<Tile> pinnedWhiteList = new ArrayList<>();
-        ArrayList<Tile> attackWhiteListed = getController().getAttackWhiteListed();
-        Piece king = getController().isWhiteTurn()
+        ArrayList<TileView> attackingKing = getController().getAttackingKing();
+        ArrayList<TileView> pinnedWhiteList = new ArrayList<>();
+        ArrayList<TileView> attackWhiteListed = getController().getAttackWhiteListed();
+        PieceView king = getController().isWhiteTurn()
                 ? getController().getWhiteKing() : getController().getBlackKing();
         boolean isPinned = isPinned(pinnedWhiteList, king);
         if (!isKing() && isPinned && attackingKing.size() < 1) { 
@@ -374,11 +374,11 @@ public abstract class Piece extends StackPane {
      * @param king to compare pin
      * @return whether or not piece is pinned
      */
-    public boolean isPinned(ArrayList<Tile> whiteList, Piece king) {
+    public boolean isPinned(ArrayList<TileView> whiteList, PieceView king) {
         if(isKing()) {
             return false;
         }
-        Tile[][] tiles = getController().getTiles();
+        TileView[][] tiles = getController().getTiles();
         int row = king.getTile().getRow(); //starts at king
         int col = king.getTile().getCol();
         if(!canNormalize(getTile().getRow() - king.getTile().getRow(), getTile().getCol() - king.getTile().getCol())) {
@@ -392,7 +392,7 @@ public abstract class Piece extends StackPane {
         int pieceCounter = 0;
         while (!atOppositePiece) { 
             if(withinBounds(row+r, col+c)) {
-                Tile t = tiles[row+r][col+c];
+                TileView t = tiles[row+r][col+c];
                 whiteList.add(t);
                 if (t.hasPiece()) {
                     pieceCounter++;
@@ -460,7 +460,7 @@ public abstract class Piece extends StackPane {
      * @param tile to check
      * @return if a tile is whiteListed, returns true
      */
-    protected boolean whiteListed(ArrayList<Tile> whitelist, Tile tile) {
+    protected boolean whiteListed(ArrayList<TileView> whitelist, TileView tile) {
         return whitelist.contains(tile);
     }
 
